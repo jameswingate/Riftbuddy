@@ -6,10 +6,9 @@ namespace Riftbuddy
 {
     public static class DeviceHandler
     {
-        public static IWaveIn waveIn;
-        public static WaveFileWriter waveWriter;
-        public static int waveLength;
-        public static int deviceTotal;
+        private static WaveIn waveIn = null;
+        private static WaveFileWriter waveWriter = null;
+        private static int deviceTotal;
 
         public static string[] GetDevices()
         {
@@ -27,7 +26,7 @@ namespace Riftbuddy
 
         public static void StartRecording()
         {
-            waveIn = new WaveIn(WaveCallbackInfo.FunctionCallback());
+            waveIn = new WaveIn();
 
             deviceTotal = WaveIn.DeviceCount;
             for (int c = 0; c < deviceTotal; ++c)
@@ -40,20 +39,15 @@ namespace Riftbuddy
             waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(waveIn_DataAvailable);
             waveIn.RecordingStopped += new EventHandler<StoppedEventArgs>(waveIn_RecordingStopped);
 
-            FileInfo waveDirectory = new FileInfo(@"C:\\RiftbuddyTemp\\temp.wav");
+            FileInfo waveDirectory = new FileInfo(@"C:\\RiftbuddyTemp\\input.wav");
             waveDirectory.Directory.Create();
 
-            waveWriter = new WaveFileWriter(@"C:\\RiftbuddyTemp\\temp.wav", waveIn.WaveFormat);
+            waveWriter = new WaveFileWriter(@"C:\\RiftbuddyTemp\\input.wav", waveIn.WaveFormat);
 
             waveIn.StartRecording();
         }
 
-        public static void StopRecording()
-        {
-            waveIn.StopRecording();
-        }
-
-        public static void waveIn_DataAvailable(object sender, WaveInEventArgs e)
+        private static void waveIn_DataAvailable(object sender, WaveInEventArgs e)
         {
             if (waveWriter != null)
             {
@@ -61,27 +55,30 @@ namespace Riftbuddy
                 waveWriter.Flush();
 
                 int seconds = (int)(waveWriter.Length / waveWriter.WaveFormat.AverageBytesPerSecond);
+                System.Diagnostics.Debug.WriteLine("Recording: {0}", seconds);
 
                 if (seconds > 0)
                 {
+                    System.Diagnostics.Debug.WriteLine("Stopped recording");
                     waveIn.StopRecording();
                 }
             }
+            else
+            {
+                return;
+            }
         }
 
-        public static void waveIn_RecordingStopped(object sender, StoppedEventArgs e)
+        private static void waveIn_RecordingStopped(object sender, StoppedEventArgs e)
         {
-            if (waveIn != null)
-            {
-                waveIn.Dispose();
-                waveIn = null;
-            }
+            waveIn.StopRecording();
+            waveIn.Dispose();
+            waveIn = null;
+            System.Diagnostics.Debug.WriteLine("Cleaned recording");
 
-            if (waveWriter != null)
-            {
-                waveWriter.Dispose();
-                waveWriter = null;
-            }
+            waveWriter.Dispose();
+            waveWriter = null;
+            System.Diagnostics.Debug.WriteLine("Cleaned writer");
 
         }
     }

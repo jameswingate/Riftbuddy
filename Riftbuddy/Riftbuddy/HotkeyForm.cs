@@ -18,7 +18,7 @@ namespace Riftbuddy
         {
             InitializeComponent();
 
-            RegisterHotKey(this.Handle, mActionHotKeyID, 0, (int)Keys.P);
+            RegisterHotKey(this.Handle, mActionHotKeyID, 4, (int)Keys.B);
         }
 
         private void HotkeyForm_Load(object sender, EventArgs e)
