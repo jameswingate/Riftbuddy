@@ -67,9 +67,6 @@ namespace Riftbuddy
                     waveIn.StopRecording();
                 }
             }
-
-
-
         }
 
         public static void waveIn_RecordingStopped(object sender, StoppedEventArgs e)
