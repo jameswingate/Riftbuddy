@@ -6,6 +6,8 @@ namespace Riftbuddy
 {
     public partial class HotkeyForm : Form
     {
+        public bool recording = false;
+
         const int mActionHotKeyID = 1;
 
         // Import DLLs
@@ -30,7 +32,16 @@ namespace Riftbuddy
         {
             if (m.Msg == 0x0312 && m.WParam.ToInt32() == mActionHotKeyID)
             {
-                MessageBox.Show("Uguu");
+                if (recording == false)
+                {
+                    DeviceHandler.StartRecording();
+                    recording = true;
+                }
+                else
+                {
+                    DeviceHandler.StopRecording();
+                    recording = false;
+                }
             }
 
             base.WndProc(ref m);
