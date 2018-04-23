@@ -34,15 +34,15 @@ namespace Riftbuddy
                 WaveInCapabilities info = WaveIn.GetCapabilities(c);
             }
 
-            waveIn.WaveFormat = new WaveFormat(16000, 1);
+            waveIn.WaveFormat = new WaveFormat(22050, 1);
 
             waveIn.DataAvailable += new EventHandler<WaveInEventArgs>(waveIn_DataAvailable);
             waveIn.RecordingStopped += new EventHandler<StoppedEventArgs>(waveIn_RecordingStopped);
 
-            FileInfo waveDirectory = new FileInfo(@"C:\\RiftbuddyTemp\\input.wav");
+            FileInfo waveDirectory = new FileInfo(@"C:\RiftbuddyTemp\input.wav");
             waveDirectory.Directory.Create();
 
-            waveWriter = new WaveFileWriter(@"C:\\RiftbuddyTemp\\input.wav", waveIn.WaveFormat);
+            waveWriter = new WaveFileWriter(@"C:\RiftbuddyTemp\input.wav", waveIn.WaveFormat);
 
             waveIn.StartRecording();
         }
@@ -80,6 +80,7 @@ namespace Riftbuddy
             waveWriter = null;
             System.Diagnostics.Debug.WriteLine("Cleaned writer");
 
+            ModelHandler.ProcessSpeech();
         }
     }
 }
