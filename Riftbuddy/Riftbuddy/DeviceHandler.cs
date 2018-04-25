@@ -55,11 +55,9 @@ namespace Riftbuddy
                 waveWriter.Flush();
 
                 int seconds = (int)(waveWriter.Length / waveWriter.WaveFormat.AverageBytesPerSecond);
-                System.Diagnostics.Debug.WriteLine("Recording: {0}", seconds);
 
                 if (seconds > 0)
                 {
-                    System.Diagnostics.Debug.WriteLine("Stopped recording");
                     waveIn.StopRecording();
                 }
             }
@@ -74,11 +72,9 @@ namespace Riftbuddy
             waveIn.StopRecording();
             waveIn.Dispose();
             waveIn = null;
-            System.Diagnostics.Debug.WriteLine("Cleaned recording");
 
             waveWriter.Dispose();
             waveWriter = null;
-            System.Diagnostics.Debug.WriteLine("Cleaned writer");
 
             ModelHandler.ProcessSpeech();
         }

@@ -33,11 +33,12 @@
             this.comboBoxServer = new System.Windows.Forms.ComboBox();
             this.labelServer = new System.Windows.Forms.Label();
             this.buttonUpdate = new System.Windows.Forms.Button();
+            this.labelUsageGuide = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // textBoxSummonerName
             // 
-            this.textBoxSummonerName.Location = new System.Drawing.Point(99, 6);
+            this.textBoxSummonerName.Location = new System.Drawing.Point(99, 41);
             this.textBoxSummonerName.Name = "textBoxSummonerName";
             this.textBoxSummonerName.Size = new System.Drawing.Size(100, 20);
             this.textBoxSummonerName.TabIndex = 0;
@@ -45,7 +46,7 @@
             // labelSummonerName
             // 
             this.labelSummonerName.AutoSize = true;
-            this.labelSummonerName.Location = new System.Drawing.Point(7, 9);
+            this.labelSummonerName.Location = new System.Drawing.Point(7, 44);
             this.labelSummonerName.Name = "labelSummonerName";
             this.labelSummonerName.Size = new System.Drawing.Size(91, 13);
             this.labelSummonerName.TabIndex = 1;
@@ -54,7 +55,7 @@
             // comboBoxServer
             // 
             this.comboBoxServer.FormattingEnabled = true;
-            this.comboBoxServer.Location = new System.Drawing.Point(99, 29);
+            this.comboBoxServer.Location = new System.Drawing.Point(99, 64);
             this.comboBoxServer.Name = "comboBoxServer";
             this.comboBoxServer.Size = new System.Drawing.Size(53, 21);
             this.comboBoxServer.TabIndex = 2;
@@ -62,7 +63,7 @@
             // labelServer
             // 
             this.labelServer.AutoSize = true;
-            this.labelServer.Location = new System.Drawing.Point(57, 33);
+            this.labelServer.Location = new System.Drawing.Point(57, 68);
             this.labelServer.Name = "labelServer";
             this.labelServer.Size = new System.Drawing.Size(41, 13);
             this.labelServer.TabIndex = 3;
@@ -70,7 +71,7 @@
             // 
             // buttonUpdate
             // 
-            this.buttonUpdate.Location = new System.Drawing.Point(63, 53);
+            this.buttonUpdate.Location = new System.Drawing.Point(63, 88);
             this.buttonUpdate.Name = "buttonUpdate";
             this.buttonUpdate.Size = new System.Drawing.Size(75, 23);
             this.buttonUpdate.TabIndex = 4;
@@ -78,11 +79,21 @@
             this.buttonUpdate.UseVisualStyleBackColor = true;
             this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
             // 
+            // labelUsageGuide
+            // 
+            this.labelUsageGuide.Location = new System.Drawing.Point(7, 6);
+            this.labelUsageGuide.Name = "labelUsageGuide";
+            this.labelUsageGuide.Size = new System.Drawing.Size(192, 33);
+            this.labelUsageGuide.TabIndex = 5;
+            this.labelUsageGuide.Text = "How to Use: Press CTRL+P then speak a command!";
+            this.labelUsageGuide.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // Config
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(208, 80);
+            this.ClientSize = new System.Drawing.Size(208, 117);
+            this.Controls.Add(this.labelUsageGuide);
             this.Controls.Add(this.buttonUpdate);
             this.Controls.Add(this.labelServer);
             this.Controls.Add(this.comboBoxServer);
@@ -104,5 +115,6 @@
         private System.Windows.Forms.ComboBox comboBoxServer;
         private System.Windows.Forms.Label labelServer;
         private System.Windows.Forms.Button buttonUpdate;
+        private System.Windows.Forms.Label labelUsageGuide;
     }
 }
