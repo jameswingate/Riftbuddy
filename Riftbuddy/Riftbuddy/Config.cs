@@ -19,13 +19,40 @@ namespace Riftbuddy
 
         private void Config_Load(object sender, EventArgs e)
         {
-            AddDevicesToComboBox();
+            Rectangle workArea = Screen.GetWorkingArea(this);
+            this.Location = new Point(workArea.Right - (Size.Width + 30),
+                                      workArea.Bottom - (Size.Height + 30));
+
+            this.Deactivate += Config_LostFocus;
+
+            comboBoxServer.Items.AddRange(new string[] { "RU", "KR", "BR1", "OC1", "JP1", "NA1", "EUN1", "EUW1", "TR1", "LA1", "LA2" });
         }
 
-        private void AddDevicesToComboBox()
+        private void Config_LostFocus(object sender, EventArgs e)
         {
-            microphoneComboBox.Items.AddRange(DeviceHandler.GetDevices());
-            microphoneComboBox.SelectedItem = DeviceHandler.GetDevices()[0];
+            this.Hide();
+        }
+
+        private void buttonUpdate_Click(object sender, EventArgs e)
+        {
+            if (textBoxSummonerName.Text.Length != 0)
+            {
+                if (comboBoxServer.SelectedIndex > -1)
+                {
+                    APIHandler.Username = textBoxSummonerName.Text;
+                    APIHandler.Server = comboBoxServer.SelectedItem.ToString();
+
+                    APIHandler.GetSummoner();
+                }
+                else
+                {
+                    SynthesisHandler.Synthesise("You must select your server.");
+                }
+            }
+            else
+            {
+                SynthesisHandler.Synthesise("You must enter your summoner name.");
+            }
         }
     }
 }

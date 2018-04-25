@@ -30,7 +30,7 @@ namespace Riftbuddy
             };
 
             NotificationHandler.Initialise();
-            NotificationHandler.Notify("RiftBuddy", "RiftBuddy is running in the background! Right click my icon for more options.", 1000);
+            NotificationHandler.Notify("RiftBuddy", "RiftBuddy is running in the background! Right click my icon for a guide or settings.", 1000);
 
             HotkeyForm hotkeyForm = new HotkeyForm();
         }

@@ -6,6 +6,8 @@ namespace Riftbuddy
 {
     public static class ModelHandler
     {
+        private static string  prediction;
+
         public static void ProcessSpeech()
         {
             ProcessStartInfo pyth = new ProcessStartInfo();
@@ -20,8 +22,14 @@ namespace Riftbuddy
                 {
                     string result = reader.ReadToEnd();
                     Debug.WriteLine(result);
+                    result = result.Split(' ')[0];
+
+                    Debug.WriteLine("Predicted: " + result);
+                    prediction = result;
                 }
             }
+
+            CommandHandler.Process(prediction);
         }
     }
 }

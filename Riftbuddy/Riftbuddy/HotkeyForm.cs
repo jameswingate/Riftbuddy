@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Riftbuddy
 {
     public partial class HotkeyForm : Form
     {
+        private void HotkeyForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
         const int mActionHotKeyID = 1;
 
         // Import DLLs
@@ -18,12 +24,7 @@ namespace Riftbuddy
         {
             InitializeComponent();
 
-            RegisterHotKey(this.Handle, mActionHotKeyID, 4, (int)Keys.B);
-        }
-
-        private void HotkeyForm_Load(object sender, EventArgs e)
-        {
-
+            RegisterHotKey(this.Handle, mActionHotKeyID, 2, (int)Keys.B);
         }
 
         protected override void WndProc(ref Message m)
