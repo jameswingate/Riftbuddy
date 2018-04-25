@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Web.Script.Serialization;
 
 namespace Riftbuddy
@@ -14,6 +15,9 @@ namespace Riftbuddy
         public static JavaScriptSerializer js;
         public static LiveGame liveGame;
         public static ChampDataSelf champDataSelf;
+        public static ChampDataEnemy champDataEnemy;
+        public static Random rnd = new Random();
+        public static List<string> champDataEnemyTips = new List<string>();
 
         private static string GetSummonerURL()
         {
@@ -76,19 +80,19 @@ namespace Riftbuddy
 
                     js = new JavaScriptSerializer();
                     liveGame = js.Deserialize<LiveGame>(responseBody);
+
+                    long champId = -1;
+                    foreach (LiveGame.CurrentGameParticipant participant in liveGame.participants)
+                    {
+                        if (participant.summonerId == summoner.id)
+                        {
+                            champId = participant.championId;
+                        }
+                    }
+
+                    GetChampionData(champId);
                 }
             }
-
-            long champId = -1;
-            foreach(LiveGame.CurrentGameParticipant participant in liveGame.participants)
-            {
-                if (participant.summonerId == summoner.id)
-                {
-                    champId = participant.championId;
-                }
-            }
-
-            GetChampionData(champId);
         }
 
         public static async void GetChampionData(long champId)
@@ -104,10 +108,67 @@ namespace Riftbuddy
 
                 js = new JavaScriptSerializer();
                 champDataSelf = js.Deserialize<ChampDataSelf>(responseBody);
+            }
+
+            long teamId = -1;
+            foreach (LiveGame.CurrentGameParticipant participant in liveGame.participants)
+            {
+                if (participant.summonerId == summoner.id)
+                {
+                    teamId = participant.teamID;
+                }
+            }
+
+            foreach (LiveGame.CurrentGameParticipant participant in liveGame.participants)
+            {
+                if (participant.teamID != teamId)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        HttpResponseMessage response = await client.GetAsync(GetChampionDataURL(participant.championId));
+
+                        string responseBody = await response.Content.ReadAsStringAsync();
+                        System.Diagnostics.Debug.WriteLine(responseBody);
+
+                        string statusCode = response.StatusCode.ToString();
+
+                        js = new JavaScriptSerializer();
+                        champDataEnemy = js.Deserialize<ChampDataEnemy>(responseBody);
+                    }
+
+                    foreach(string tip in champDataEnemy.enemytips)
+                    {
+                        champDataEnemyTips.Add(tip);
+                    }
+                }
+            }
+
+            using (var client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync(GetChampionDataURL(champId));
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+                System.Diagnostics.Debug.WriteLine(responseBody);
+
+                string statusCode = response.StatusCode.ToString();
+
+                js = new JavaScriptSerializer();
+                champDataSelf = js.Deserialize<ChampDataSelf>(responseBody);
 
                 SynthesisHandler.Synthesise("You are playing " + champDataSelf.name + ", " + champDataSelf.title);
-                SynthesisHandler.Synthesise("")
+                SynthesisHandler.Synthesise("Say go whenever you would like some advice, or off to disable Rift Buddy until you say on again.");
+                CommandHandler.helpState = 1;
             }
+        }
+        
+        public static void GetChampAdviceSelf()
+        {
+            SynthesisHandler.Synthesise(champDataSelf.allytips[rnd.Next(0, champDataSelf.allytips.Count + 1)]);
+        }
+
+        public static void GetChampAdviceEnemy()
+        {
+            SynthesisHandler.Synthesise(champDataEnemyTips[rnd.Next(0, champDataEnemyTips.Count + 1)]);
         }
     }
 }
