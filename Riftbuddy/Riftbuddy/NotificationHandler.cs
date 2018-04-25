@@ -7,6 +7,7 @@ namespace Riftbuddy
     {
         private static NotifyIcon rbNotifyIcon;
         private static ContextMenu rbNotifyIconContextMenu;
+        private static Config configForm;
 
         public static void Initialise()
         {
@@ -33,16 +34,28 @@ namespace Riftbuddy
             rbNotifyIcon.ShowBalloonTip(timeout);
         }
 
+        public static void HandleProgramExit()
+        {
+            rbNotifyIcon.Visible = false;
+            Application.Exit();
+        }
+
         private static void miConfigure_Click(object sender, EventArgs e)
         {
-            Config configForm = new Config();
-            configForm.Show();
+            if (configForm == null)
+            {
+                configForm = new Config();
+                configForm.Show();
+            }
+            else
+            {
+                configForm.Show();
+            }
         }
 
         private static void miExit_Click(object sender, EventArgs e)
         {
-            rbNotifyIcon.Visible = false;
-            Application.Exit();
+            HandleProgramExit();
         }
     }
 }
