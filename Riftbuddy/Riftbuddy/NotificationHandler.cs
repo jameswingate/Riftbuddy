@@ -5,10 +5,12 @@ namespace Riftbuddy
 {
     public static class NotificationHandler
     {
+        // Declare global static variables.
         private static NotifyIcon rbNotifyIcon;
         private static ContextMenu rbNotifyIconContextMenu;
         private static Config configForm;
 
+        // Initialise.
         public static void Initialise()
         {
             rbNotifyIcon = new NotifyIcon();
@@ -26,6 +28,7 @@ namespace Riftbuddy
             rbNotifyIcon.ContextMenu = rbNotifyIconContextMenu;
         }
 
+        // Create and display a notification.
         public static void Notify(string title, string text, int timeout)
         { 
             rbNotifyIcon.BalloonTipTitle = title;
@@ -34,12 +37,14 @@ namespace Riftbuddy
             rbNotifyIcon.ShowBalloonTip(timeout);
         }
 
+        // Handle exiting of the program.
         public static void HandleProgramExit()
         {
             rbNotifyIcon.Visible = false;
             Application.Exit();
         }
 
+        // Event handler for docked icon's context menu.
         private static void miConfigure_Click(object sender, EventArgs e)
         {
             if (configForm == null)
@@ -53,6 +58,7 @@ namespace Riftbuddy
             }
         }
 
+        // Event handler for docked icon's context menu.
         private static void miExit_Click(object sender, EventArgs e)
         {
             HandleProgramExit();
