@@ -6,8 +6,10 @@ namespace Riftbuddy
 {
     public static class ModelHandler
     {
+        // Declare global static variable.
         private static string  prediction;
 
+        // Process the input speech using the CNN model.
         public static void ProcessSpeech()
         {
             ProcessStartInfo pyth = new ProcessStartInfo();

@@ -6,10 +6,12 @@ namespace Riftbuddy
 {
     public static class DeviceHandler
     {
+        // Declare global static variables.
         private static WaveIn waveIn = null;
         private static WaveFileWriter waveWriter = null;
         private static int deviceTotal;
 
+        // Obtain all current recording devices.
         public static string[] GetDevices()
         {
             deviceTotal = WaveIn.DeviceCount;
@@ -24,6 +26,7 @@ namespace Riftbuddy
             return devices;
         }
 
+        // Start recording.
         public static void StartRecording()
         {
             waveIn = new WaveIn();
@@ -47,6 +50,7 @@ namespace Riftbuddy
             waveIn.StartRecording();
         }
 
+        // Microphone event handler.
         private static void waveIn_DataAvailable(object sender, WaveInEventArgs e)
         {
             if (waveWriter != null)
@@ -67,6 +71,7 @@ namespace Riftbuddy
             }
         }
 
+        // Microphone event handler.
         private static void waveIn_RecordingStopped(object sender, StoppedEventArgs e)
         {
             waveIn.StopRecording();

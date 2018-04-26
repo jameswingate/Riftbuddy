@@ -8,6 +8,7 @@ namespace Riftbuddy
 {
     public static class APIHandler
     {
+        // Declare global object variables.
         public static string Username;
         public static string Server;
         private static string Key = "RGAPI-e1153305-50bf-4643-9857-bcfff9eec28c";
@@ -19,21 +20,25 @@ namespace Riftbuddy
         public static Random rnd = new Random();
         public static List<string> champDataEnemyTips = new List<string>();
 
+        // Get URL for summoner data.
         private static string GetSummonerURL()
         {
             return ("https://" + Server.ToLower() + ".api.riotgames.com/lol/summoner/v3/summoners/by-name/" + Username + "?api_key=" + Key);
         }
-
+        
+        // Get URL for live game data.
         private static string GetCurrentGameURL()
         {
             return ("https://" + Server.ToLower() + ".api.riotgames.com/lol/spectator/v3/active-games/by-summoner/" + summoner.id + "?api_key=" + Key);
         }
 
+        // Get URL for static champion data.
         private static string GetChampionDataURL(long champId)
         {
             return ("https://" + Server.ToLower() + ".api.riotgames.com/lol/static-data/v3/champions/" + champId + "?locale=en_US&champData=allytips&tags=enemytips&api_key=" + Key);
         }
 
+        // Pull live stats of the user.
         public static async void GetSummoner()
         {
             using (var client = new HttpClient())
@@ -59,6 +64,7 @@ namespace Riftbuddy
             }
         }
 
+        // Pull live game stats of the user.
         public static async void GetCurrentGame()
         {
             using (var client = new HttpClient())
@@ -95,6 +101,7 @@ namespace Riftbuddy
             }
         }
 
+        // Pull static champion data.
         public static async void GetChampionData(long champId)
         {
             using (var client = new HttpClient())
@@ -161,11 +168,13 @@ namespace Riftbuddy
             }
         }
         
+        // Synthesise advice for the user's champion.
         public static void GetChampAdviceSelf()
         {
             SynthesisHandler.Synthesise(champDataSelf.allytips[rnd.Next(0, champDataSelf.allytips.Count + 1)]);
         }
 
+        // Synthesise advice for the enemy champions.
         public static void GetChampAdviceEnemy()
         {
             SynthesisHandler.Synthesise(champDataEnemyTips[rnd.Next(0, champDataEnemyTips.Count + 1)]);
